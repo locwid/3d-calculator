@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { calculate } from "@/lib/calculate";
 import { ControlButton } from "./ControlButton";
 import { type Control, ControlType, controls } from "./controls";
