@@ -11,14 +11,14 @@ import { TokenType } from "./TokenType";
 export class Parser {
 	private tokens: Token[];
 	private current = 0;
-	private blanked = false;
+	private incompleted = false;
 
 	constructor(tokens: Token[]) {
 		this.tokens = tokens;
 	}
 
-	get isBlanked() {
-		return this.blanked;
+	get isIncompleted() {
+		return this.incompleted;
 	}
 
 	parse() {
@@ -70,6 +70,9 @@ export class Parser {
 		if (this.match(TokenType.LEFT_PAREN)) {
 			const expr = this.expression();
 			const rightParen = this.consume(TokenType.RIGHT_PAREN);
+			if (!rightParen) {
+				this.incompleted = true;
+			}
 			return new GroupingExpression(expr, !!rightParen);
 		}
 
@@ -124,7 +127,7 @@ export class Parser {
 	}
 
 	private blank(): Expression {
-		this.blanked = true;
+		this.incompleted = true;
 		return new BlankExpression();
 	}
 }

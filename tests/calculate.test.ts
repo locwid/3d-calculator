@@ -1,12 +1,18 @@
 import { describe, expect, test } from "bun:test";
-import { calculate } from "@/lib/calculate";
+import { Calculation } from "@/lib/Calculation";
 
-describe("calculate()", () => {
+const calculate = (source: string) => {
+	const calculation = new Calculation();
+	return calculation.calculate(source);
+};
+
+describe("new Calculation()", () => {
 	test("Literal expression: 12", () => {
 		const result = calculate("12");
 		expect(result).toEqual({
 			status: "success",
 			value: 12,
+			printed: "12",
 		});
 	});
 
@@ -15,6 +21,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: -20,
+			printed: "-20",
 		});
 	});
 
@@ -23,6 +30,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 2,
+			printed: "2",
 		});
 	});
 
@@ -31,6 +39,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 13.65,
+			printed: "13.65",
 		});
 	});
 
@@ -39,6 +48,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 1,
+			printed: "1",
 		});
 	});
 
@@ -47,6 +57,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 3,
+			printed: "1+2",
 		});
 	});
 
@@ -55,6 +66,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 6.6,
+			printed: "1+2+3.6",
 		});
 	});
 
@@ -63,6 +75,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: -1,
+			printed: "1+-2",
 		});
 	});
 
@@ -71,6 +84,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 2,
+			printed: "5-3",
 		});
 	});
 
@@ -79,6 +93,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 6,
+			printed: "2*3",
 		});
 	});
 
@@ -87,6 +102,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 3,
+			printed: "6/2",
 		});
 	});
 
@@ -103,6 +119,7 @@ describe("calculate()", () => {
 		expect(result).toEqual({
 			status: "success",
 			value: 8,
+			printed: "(2+2)*2",
 		});
 	});
 
@@ -110,6 +127,7 @@ describe("calculate()", () => {
 		const result = calculate("(3+1");
 		expect(result).toEqual({
 			status: "incomplete",
+			printed: "(3+1",
 		});
 	});
 
@@ -117,6 +135,7 @@ describe("calculate()", () => {
 		const result = calculate("3+");
 		expect(result).toEqual({
 			status: "incomplete",
+			printed: "3+",
 		});
 	});
 
@@ -124,6 +143,7 @@ describe("calculate()", () => {
 		const result = calculate("4*-");
 		expect(result).toEqual({
 			status: "incomplete",
+			printed: "4*-",
 		});
 	});
 });

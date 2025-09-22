@@ -1,9 +1,26 @@
 import { Edges } from "@react-three/drei";
+import { type CalculatorConfig, defaultCalculatorConfig } from "./config";
 
-export const Wrapper = () => (
-	<mesh castShadow receiveShadow>
-		<boxGeometry args={[12, 21, 3]} />
-		<meshBasicMaterial color="#555" />
-		<Edges color="#000" />
-	</mesh>
-);
+interface WrapperProps {
+	config?: CalculatorConfig;
+}
+
+export const Wrapper: React.FC<WrapperProps> = ({
+	config = defaultCalculatorConfig,
+}) => {
+	const { dimensions, colors } = config;
+
+	return (
+		<mesh castShadow receiveShadow>
+			<boxGeometry
+				args={[
+					dimensions.wrapper.width,
+					dimensions.wrapper.height,
+					dimensions.wrapper.depth,
+				]}
+			/>
+			<meshBasicMaterial color={colors.wrapper} />
+			<Edges color={colors.edges} />
+		</mesh>
+	);
+};

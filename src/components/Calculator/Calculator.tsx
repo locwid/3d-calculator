@@ -1,14 +1,23 @@
 import { useState } from "react";
-import { calculate } from "@/lib/calculate";
+import { Calculation } from "@/lib/Calculation";
 import { ControlButton } from "./ControlButton";
+import { type CalculatorConfig, defaultCalculatorConfig } from "./config";
 import { type Control, ControlType, controls } from "./controls";
 import { Display } from "./Display";
 import { formatNum } from "./formatNum";
 import { Wrapper } from "./Wrapper";
 
-export const Calculator = () => {
+interface CalculatorProps {
+	config?: CalculatorConfig;
+}
+
+export const Calculator: React.FC<CalculatorProps> = ({
+	config = defaultCalculatorConfig,
+}) => {
 	const [expression, setExpression] = useState("");
 	const [prevExpression, setPrevExpression] = useState("");
+
+	const { layout, dimensions } = config;
 
 	const handleClear = () => {
 		setExpression("");
@@ -16,7 +25,8 @@ export const Calculator = () => {
 	};
 
 	const handleEqual = () => {
-		const result = calculate(expression);
+		const calc = new Calculation();
+		const result = calc.calculate(expression);
 		if (result.status === "success") {
 			setPrevExpression(expression);
 			setExpression(formatNum(result.value));
@@ -25,7 +35,8 @@ export const Calculator = () => {
 
 	const handleToken = (token: string) => {
 		const value = expression + token;
-		const result = calculate(value);
+		const calc = new Calculation();
+		const result = calc.calculate(value);
 		if (result.status !== "error") {
 			setExpression(result.printed);
 		}
@@ -53,7 +64,12 @@ export const Calculator = () => {
 		<ControlButton
 			key={control.value}
 			onClick={() => handleClick(control)}
-			position={[(index % 4) * 2.5, Math.floor(index / 4) * 2.5, 0]}
+			position={[
+				(index % layout.columns) * dimensions.button.spacing,
+				Math.floor(index / layout.columns) * dimensions.button.spacing,
+				0,
+			]}
+			config={config}
 		>
 			{control.value}
 		</ControlButton>
@@ -61,9 +77,13 @@ export const Calculator = () => {
 
 	return (
 		<group>
-			<Wrapper />
-			<Display expression={expression} prevExpression={prevExpression} />
-			<group position={[-3.75, -8, 2]}>{controlButtons}</group>
+			<Wrapper config={config} />
+			<Display
+				expression={expression}
+				prevExpression={prevExpression}
+				config={config}
+			/>
+			<group position={layout.buttonsStartPosition}>{controlButtons}</group>
 		</group>
 	);
 };

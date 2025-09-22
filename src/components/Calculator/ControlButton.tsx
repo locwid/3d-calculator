@@ -1,6 +1,7 @@
 import { Edges, Text, useCursor } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useState } from "react";
+import { type CalculatorConfig, defaultCalculatorConfig } from "./config";
 
 const mapRange = (
 	value: number,
@@ -16,29 +17,55 @@ interface ControlButtonProps {
 	children: React.ReactNode;
 	position: [number, number, number];
 	onClick?: () => void;
+	config?: CalculatorConfig;
 }
 
 export const ControlButton: React.FC<ControlButtonProps> = ({
 	children,
 	position,
 	onClick,
+	config = defaultCalculatorConfig,
 }) => {
 	const [hovered, setHovered] = useState(false);
 	const [pressed, setPressed] = useState(false);
 	const [pressProgress, setPressProgress] = useState(0);
 	useCursor(hovered);
 
+	const { dimensions, text, colors, animation } = config;
+
 	useFrame(() => {
 		if (pressed && hovered) {
-			setPressProgress(Math.min(1, pressProgress + 0.1));
+			setPressProgress(
+				Math.min(1, pressProgress + animation.buttonPress.speed),
+			);
 		} else {
-			setPressProgress(Math.max(0, pressProgress - 0.1));
+			setPressProgress(
+				Math.max(0, pressProgress - animation.buttonPress.speed),
+			);
 		}
 	});
 
-	const thickness = mapRange(pressProgress, 0, 1, 1, 0.5);
-	const textOffset = mapRange(pressProgress, 0, 1, 0.51, 0.26);
-	const buttonOffset = mapRange(pressProgress, 0, 1, 0, -0.25);
+	const thickness = mapRange(
+		pressProgress,
+		0,
+		1,
+		dimensions.button.maxDepth,
+		dimensions.button.minDepth,
+	);
+	const textOffset = mapRange(
+		pressProgress,
+		0,
+		1,
+		dimensions.button.maxDepth / 2 + 0.01,
+		dimensions.button.minDepth / 2 + 0.01,
+	);
+	const buttonOffset = mapRange(
+		pressProgress,
+		0,
+		1,
+		0,
+		(dimensions.button.minDepth - dimensions.button.maxDepth) / 2,
+	);
 
 	const currentPosition: [number, number, number] = [
 		position[0],
@@ -66,16 +93,18 @@ export const ControlButton: React.FC<ControlButtonProps> = ({
 					setPressed(false);
 				}}
 			>
-				<boxGeometry args={[2, 2, thickness]} />
-				<meshBasicMaterial color="#ccc" />
+				<boxGeometry
+					args={[dimensions.button.width, dimensions.button.height, thickness]}
+				/>
+				<meshBasicMaterial color={colors.button.default} />
 
-				<Edges color="#000" />
+				<Edges color={colors.edges} />
 			</mesh>
 			<Text
-				font="/font.ttf"
-				fontSize={0.9}
-				color="#000"
-				position={[0, 0.1, textOffset]}
+				font={text.font}
+				fontSize={text.button.fontSize}
+				color={colors.button.text}
+				position={[0, text.button.yOffset, textOffset]}
 			>
 				{children}
 			</Text>
