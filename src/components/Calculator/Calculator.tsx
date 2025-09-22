@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Calculation } from "@/lib/Calculation";
 import { ControlButton } from "./ControlButton";
 import { type CalculatorConfig, defaultCalculatorConfig } from "./config";
-import { type Control, ControlType, controls } from "./controls";
+import { type Control, controls } from "./controls";
 import { Display } from "./Display";
 import { formatNum } from "./formatNum";
 import { Wrapper } from "./Wrapper";
+import { ControlCode, ControlType } from "./enums";
 
 interface CalculatorProps {
 	config?: CalculatorConfig;
@@ -45,14 +46,14 @@ export const Calculator: React.FC<CalculatorProps> = ({
 	const handleClick = (control: Control) => {
 		switch (control.type) {
 			case ControlType.TOKEN:
-				handleToken(control.value);
+				handleToken(control.code);
 				break;
 			case ControlType.ACTION:
-				switch (control.value) {
-					case "CLR":
+				switch (control.code) {
+					case ControlCode.CLEAR:
 						handleClear();
 						break;
-					case "=":
+					case ControlCode.EQUAL:
 						handleEqual();
 						break;
 				}
@@ -62,7 +63,7 @@ export const Calculator: React.FC<CalculatorProps> = ({
 
 	const controlButtons = controls.flat().map((control, index) => (
 		<ControlButton
-			key={control.value}
+			key={control.code}
 			onClick={() => handleClick(control)}
 			position={[
 				(index % layout.columns) * dimensions.button.spacing,
@@ -71,7 +72,7 @@ export const Calculator: React.FC<CalculatorProps> = ({
 			]}
 			config={config}
 		>
-			{control.value}
+			{control.code}
 		</ControlButton>
 	));
 

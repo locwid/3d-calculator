@@ -1,5 +1,4 @@
 export interface CalculatorConfig {
-	// Размеры и позиционирование
 	dimensions: {
 		wrapper: {
 			width: number;
@@ -25,14 +24,10 @@ export interface CalculatorConfig {
 			spacing: number;
 		};
 	};
-
-	// Layout кнопок
 	layout: {
 		columns: number;
 		buttonsStartPosition: [number, number, number];
 	};
-
-	// Настройки текста
 	text: {
 		font: string;
 		display: {
@@ -59,15 +54,11 @@ export interface CalculatorConfig {
 			yOffset: number;
 		};
 	};
-
-	// Анимация
 	animation: {
 		buttonPress: {
-			speed: number; // скорость анимации нажатия кнопки
+			speed: number;
 		};
 	};
-
-	// Цвета и стили
 	colors: {
 		edges: string;
 		wrapper: string;
@@ -105,12 +96,10 @@ export const defaultCalculatorConfig: CalculatorConfig = {
 			spacing: 2.5,
 		},
 	},
-
 	layout: {
 		columns: 4,
 		buttonsStartPosition: [-3.75, -8, 2],
 	},
-
 	text: {
 		font: "/font.ttf",
 		display: {
@@ -137,13 +126,11 @@ export const defaultCalculatorConfig: CalculatorConfig = {
 			yOffset: 0.1,
 		},
 	},
-
 	animation: {
 		buttonPress: {
 			speed: 0.1,
 		},
 	},
-
 	colors: {
 		edges: "#000",
 		wrapper: "#555",

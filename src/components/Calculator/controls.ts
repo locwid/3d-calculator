@@ -1,43 +1,39 @@
-import { defineEnum, type Enum } from "@/lib/defineEnum";
-
-export const ControlType = defineEnum(["ACTION", "TOKEN"]);
-export type ControlType = Enum<typeof ControlType>;
+import { ControlCode, ControlType } from "./enums";
 
 export interface Control {
-	label: string;
-	value: string;
+	code: ControlCode;
 	type: ControlType;
 }
 
 export const controls: Control[][] = [
 	[
-		{ label: "EXT", value: "EXT", type: ControlType.ACTION },
-		{ label: "0", value: "0", type: ControlType.TOKEN },
-		{ label: ",", value: ",", type: ControlType.TOKEN },
-		{ label: "=", value: "=", type: ControlType.ACTION },
+		{ code: ControlCode.EXTENSION, type: ControlType.ACTION },
+		{ code: ControlCode.NUM_0, type: ControlType.TOKEN },
+		{ code: ControlCode.COMMA, type: ControlType.TOKEN },
+		{ code: ControlCode.EQUAL, type: ControlType.ACTION },
 	],
 	[
-		{ label: "1", value: "1", type: ControlType.TOKEN },
-		{ label: "2", value: "2", type: ControlType.TOKEN },
-		{ label: "3", value: "3", type: ControlType.TOKEN },
-		{ label: "+", value: "+", type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_1, type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_2, type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_3, type: ControlType.TOKEN },
+		{ code: ControlCode.ADD, type: ControlType.TOKEN },
 	],
 	[
-		{ label: "4", value: "4", type: ControlType.TOKEN },
-		{ label: "5", value: "5", type: ControlType.TOKEN },
-		{ label: "6", value: "6", type: ControlType.TOKEN },
-		{ label: "-", value: "-", type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_4, type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_5, type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_6, type: ControlType.TOKEN },
+		{ code: ControlCode.SUB, type: ControlType.TOKEN },
 	],
 	[
-		{ label: "7", value: "7", type: ControlType.TOKEN },
-		{ label: "8", value: "8", type: ControlType.TOKEN },
-		{ label: "9", value: "9", type: ControlType.TOKEN },
-		{ label: "*", value: "*", type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_7, type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_8, type: ControlType.TOKEN },
+		{ code: ControlCode.NUM_9, type: ControlType.TOKEN },
+		{ code: ControlCode.MULTIPLY, type: ControlType.TOKEN },
 	],
 	[
-		{ label: "CLR", value: "CLR", type: ControlType.ACTION },
-		{ label: "(", value: "(", type: ControlType.TOKEN },
-		{ label: ")", value: ")", type: ControlType.TOKEN },
-		{ label: "/", value: "/", type: ControlType.TOKEN },
+		{ code: ControlCode.CLEAR, type: ControlType.ACTION },
+		{ code: ControlCode.OPEN_PAREN, type: ControlType.TOKEN },
+		{ code: ControlCode.CLOSE_PAREN, type: ControlType.TOKEN },
+		{ code: ControlCode.DIVIDE, type: ControlType.TOKEN },
 	],
 ];
