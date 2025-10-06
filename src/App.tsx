@@ -4,13 +4,13 @@ import { Scene } from "./components/Scene";
 import { defaultAppConfig } from "./config";
 
 export const App: React.FC = () => {
-	const { scene, calculator } = defaultAppConfig;
+  const { scene, calculator } = defaultAppConfig;
 
-	return (
-		<div className={styles.wrapper}>
-			<Scene config={scene}>
-				<Calculator config={calculator} />
-			</Scene>
-		</div>
-	);
+  return (
+    <div className={styles.wrapper}>
+      <Scene config={scene}>
+        <Calculator config={calculator} />
+      </Scene>
+    </div>
+  );
 };

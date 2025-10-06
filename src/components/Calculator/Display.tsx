@@ -12,7 +12,10 @@ export const Display: React.FC<DisplayProps> = ({
 }) => {
   const { dimensions, text, colors } = useCalculatorContext();
 
-  const fontSize = expression.length < 11 ? text.display.primary.fontSize : text.display.primary.fontSize * (1 / expression.length * 9);
+  const fontSize =
+    expression.length < 11
+      ? text.display.primary.fontSize
+      : text.display.primary.fontSize * ((1 / expression.length) * 9);
 
   return (
     <group position={dimensions.display.position}>
