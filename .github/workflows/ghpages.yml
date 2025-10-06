@@ -32,6 +32,8 @@ jobs:
 
       - name: Build
         run: bun run build
+        env:
+          BASE_PATH: /3d-calculator/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
