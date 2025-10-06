@@ -7,3 +7,5 @@
 - React + TypeScript
 - Three.js
 - Vite
+
+Демо: https://locwid.github.io/3d-calculator/
