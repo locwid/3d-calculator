@@ -101,7 +101,7 @@ export const defaultCalculatorConfig: CalculatorConfig = {
     buttonsStartPosition: [-3.75, -8, 2],
   },
   text: {
-    font: process.env.BASE_PATH + "/font.ttf",
+    font: import.meta.env.BASE_URL + "font.ttf",
     display: {
       primary: {
         fontSize: 1.4,
